@@ -1,14 +1,21 @@
 export async function POST(req) {
   const body = await req.json();
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': process.env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify(body),
-  });
+  const prompt = body.messages?.[0]?.content || '';
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { maxOutputTokens: 1800 },
+      }),
+    }
+  );
+
   const data = await res.json();
-  return Response.json(data, { status: res.status });
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+  return Response.json({ content: [{ type: 'text', text }] });
 }

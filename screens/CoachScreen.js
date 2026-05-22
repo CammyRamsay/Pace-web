@@ -117,7 +117,7 @@ Respond ONLY with valid JSON (no markdown, no backticks):
 
       {analysis && (
         <>
-          <Card style={{ backgroundColor: '#141b15', textAlign: 'center' }}>
+          <Card style={{ backgroundColor: C.panelAlt, textAlign: 'center' }}>
             <div style={{ fontFamily: 'monospace', fontWeight: '700', fontSize: 48, color: scoreColor }}>{analysis.score}</div>
             <div style={{ fontSize: 10, letterSpacing: 2, color: C.dim, marginBottom: 10 }}>TRAINING SCORE</div>
             <div style={{ fontSize: 14, fontWeight: '600', lineHeight: '20px', color: C.txt }}>{analysis.verdict}</div>

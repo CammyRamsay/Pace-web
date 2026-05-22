@@ -24,7 +24,7 @@ export default function TrailScreen({ runs }) {
         <Empty msg="No trail runs logged. Set terrain to Trail when logging." />
       ) : (
         <>
-          <Card style={{ backgroundColor: '#141b15' }}>
+          <Card style={{ backgroundColor: C.panelAlt }}>
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
               {[
                 ['TRAIL KM', totalKm.toFixed(1), C.acid],

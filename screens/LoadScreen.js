@@ -35,12 +35,12 @@ export default function LoadScreen({ runs }) {
         <Empty msg="Log runs and your load balance appears here." />
       ) : (
         <>
-          <Card style={{ backgroundColor: '#141b15', alignItems: 'center', textAlign: 'center' }}>
+          <Card style={{ backgroundColor: C.panelAlt, alignItems: 'center', textAlign: 'center' }}>
             <div style={{ fontFamily: 'monospace', fontWeight: '700', fontSize: 46, color: zColor }}>{ratio.toFixed(2)}</div>
             <div style={{ fontSize: 10, letterSpacing: 2, color: C.dim }}>ACUTE : CHRONIC RATIO</div>
 
             <div style={{ width: '100%', height: 12, backgroundColor: C.bg, borderRadius: 6, marginTop: 16, marginBottom: 6, border: `1px solid ${C.line}`, overflow: 'hidden', position: 'relative' }}>
-              <div style={{ position: 'absolute', left: '40%', width: '25%', top: 0, bottom: 0, backgroundColor: 'rgba(196,255,61,0.15)' }} />
+              <div style={{ position: 'absolute', left: '40%', width: '25%', top: 0, bottom: 0, backgroundColor: C.acidGlow }} />
               <div style={{ position: 'absolute', left: `${ratioPct}%`, top: -3, bottom: -3, width: 3, backgroundColor: zColor }} />
             </div>
 

@@ -2,15 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg: #070a12;
+  --panel: #0e1220;
+  --panel-alt: #0a1028;
+  --panel2: #090c18;
+  --line: #182038;
+  --line-bright: #253360;
+  --txt: #edf2ff;
+  --txt2: #c5cfe8;
+  --dim: #4a5980;
+  --dim2: #6878a8;
+  --acid: #d4ff5c;
+  --cyan: #22d3ee;
+  --orange: #ff7043;
+  --red: #ff4466;
+  --blue: #4477ff;
+  --green: #30d980;
+  --acid-glow: rgba(212, 255, 92, 0.12);
+}
+
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background: #0a0e0d;
-  color: #e8f0ed;
-  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--txt);
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   margin: 0;
   overscroll-behavior: none;
 }
@@ -30,4 +50,9 @@ input[type='number']::-webkit-inner-spin-button {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
