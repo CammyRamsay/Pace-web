@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { C } from '../lib/theme';
 import { THEMES, DEFAULT_THEME, applyTheme } from '../lib/themes';
 import { loadRuns, saveRuns, loadTargets, saveTargets } from '../lib/storage';
+import { getStravaAuth, saveStravaAuth, clearStravaAuth, ensureFreshToken, stravaToRun } from '../lib/strava';
 
 import LogScreen from '../screens/LogScreen';
 import StatsScreen from '../screens/StatsScreen';
@@ -25,6 +26,8 @@ export default function Home() {
   const [ready, setReady] = useState(false);
   const [theme, setTheme] = useState(DEFAULT_THEME);
   const [showThemePicker, setShowThemePicker] = useState(false);
+  const [stravaAuth, setStravaAuth] = useState(null);
+  const [stravaSync, setStravaSync] = useState(null);
 
   useEffect(() => {
     const saved = localStorage.getItem('pace.theme') || DEFAULT_THEME;
@@ -32,6 +35,23 @@ export default function Home() {
     applyTheme(saved);
     setRuns(loadRuns());
     setTargets(loadTargets());
+
+    const params = new URLSearchParams(window.location.search);
+    const sat = params.get('_sat');
+    if (sat) {
+      const auth = {
+        access_token: sat,
+        refresh_token: params.get('_srt'),
+        expires_at: parseInt(params.get('_sexp')),
+        athlete_name: params.get('_san'),
+      };
+      saveStravaAuth(auth);
+      setStravaAuth(auth);
+      window.history.replaceState({}, '', '/');
+    } else {
+      setStravaAuth(getStravaAuth());
+    }
+
     setReady(true);
   }, []);
 
@@ -50,6 +70,32 @@ export default function Home() {
   }, []);
   const delRun = useCallback((id) => setRuns((p) => p.filter((x) => x.id !== id)), []);
 
+  const syncStrava = useCallback(async () => {
+    let auth = stravaAuth;
+    auth = await ensureFreshToken(auth);
+    if (!auth) { setStravaAuth(null); clearStravaAuth(); return; }
+    setStravaSync('loading');
+    try {
+      const res = await fetch('/api/strava/activities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ access_token: auth.access_token }),
+      });
+      if (!res.ok) throw new Error();
+      const { activities } = await res.json();
+      setRuns((prev) => {
+        const existingIds = new Set(prev.map((r) => r.stravaId).filter(Boolean));
+        const fresh = activities.map(stravaToRun).filter((r) => !existingIds.has(r.stravaId));
+        return [...prev, ...fresh].sort((a, b) => b.date - a.date);
+      });
+      setStravaSync('done');
+      setTimeout(() => setStravaSync(null), 3000);
+    } catch {
+      setStravaSync('error');
+      setTimeout(() => setStravaSync(null), 3000);
+    }
+  }, [stravaAuth]);
+
   if (!ready || !targets) {
     return (
       <div style={{
@@ -65,7 +111,7 @@ export default function Home() {
 
   const renderScreen = () => {
     switch (tab) {
-      case 'Log': return <LogScreen runs={runs} delRun={delRun} addRun={addRun} />;
+      case 'Log': return <LogScreen runs={runs} delRun={delRun} addRun={addRun} stravaAuth={stravaAuth} stravaSync={stravaSync} onStravaSync={syncStrava} />;
       case 'Stats': return <StatsScreen runs={runs} targets={targets} setTargets={setTargets} />;
       case 'Routes': return <RoutesScreen runs={runs} />;
       case 'Load': return <LoadScreen runs={runs} />;

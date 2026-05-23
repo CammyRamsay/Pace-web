@@ -4,6 +4,7 @@ import { C } from '../lib/theme';
 import { fmtPace, gap } from '../lib/calc';
 import { H, Card, Field, Input, Segmented, Btn, Empty } from '../components/ui';
 import RunCard from '../components/RunCard';
+import { stravaConnectUrl } from '../lib/strava';
 
 const SUB = ['Add', 'History'];
 
@@ -141,13 +142,53 @@ function AddView({ addRun }) {
   );
 }
 
-function HistoryView({ runs, delRun }) {
+function HistoryView({ runs, delRun, stravaAuth, stravaSync, onStravaSync }) {
   const [filter, setFilter] = useState('All');
   const types = ['All', 'Easy', 'Tempo', 'Intervals', 'Long', 'Race', 'Recovery', 'Hills'];
   const shown = filter === 'All' ? runs : runs.filter((r) => r.type === filter);
 
   return (
     <div style={{ padding: 14, paddingBottom: 40 }}>
+
+      {/* Strava banner */}
+      {stravaAuth ? (
+        <div style={{
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          backgroundColor: C.panel, borderRadius: 14, padding: '12px 16px',
+          border: `1px solid ${C.lineBright}`, marginBottom: 14,
+        }}>
+          <div>
+            <div style={{ fontSize: 12, fontWeight: '700', letterSpacing: 1, color: '#FC4C02' }}>⚡ STRAVA</div>
+            {stravaAuth.athlete_name && (
+              <div style={{ fontSize: 10, color: C.dim, marginTop: 2 }}>{stravaAuth.athlete_name}</div>
+            )}
+          </div>
+          <button
+            onClick={onStravaSync}
+            disabled={stravaSync === 'loading'}
+            style={{
+              backgroundColor: stravaSync === 'done' ? C.green : '#FC4C02',
+              color: stravaSync === 'done' ? '#000' : '#fff',
+              border: 'none', borderRadius: 10, padding: '8px 16px',
+              fontSize: 11, fontWeight: '700', letterSpacing: 1, cursor: 'pointer',
+            }}
+          >
+            {stravaSync === 'loading' ? 'SYNCING...' : stravaSync === 'done' ? '✓ SYNCED' : stravaSync === 'error' ? 'ERROR' : 'SYNC RUNS'}
+          </button>
+        </div>
+      ) : (
+        <button
+          onClick={() => { window.location.href = stravaConnectUrl(); }}
+          style={{
+            width: '100%', backgroundColor: '#FC4C02', color: '#fff',
+            border: 'none', borderRadius: 14, padding: '14px',
+            fontSize: 13, fontWeight: '700', letterSpacing: 2, cursor: 'pointer',
+            marginBottom: 14,
+          }}
+        >
+          CONNECT STRAVA
+        </button>
+      )}
       <div style={{ display: 'flex', gap: 6, overflowX: 'auto', marginBottom: 12, paddingBottom: 2 }}>
         {types.map((t) => {
           const active = filter === t;
@@ -177,7 +218,7 @@ function HistoryView({ runs, delRun }) {
   );
 }
 
-export default function LogScreen({ runs, delRun, addRun }) {
+export default function LogScreen({ runs, delRun, addRun, stravaAuth, stravaSync, onStravaSync }) {
   const [sub, setSub] = useState('Add');
 
   return (
@@ -217,7 +258,7 @@ export default function LogScreen({ runs, delRun, addRun }) {
 
       <div style={{ flex: 1, overflowY: 'auto', overscrollBehavior: 'contain' }}>
         {sub === 'Add' && <AddView addRun={addRun} />}
-        {sub === 'History' && <HistoryView runs={runs} delRun={delRun} />}
+        {sub === 'History' && <HistoryView runs={runs} delRun={delRun} stravaAuth={stravaAuth} stravaSync={stravaSync} onStravaSync={onStravaSync} />}
       </div>
     </div>
   );
