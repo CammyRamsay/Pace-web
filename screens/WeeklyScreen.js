@@ -43,7 +43,7 @@ export default function WeeklyScreen({ runs, targets }) {
           <div style={{ width: '100%', marginTop: 12 }}>
             <Bar pct={(km / targets.weeklyKm) * 100} color={C.acid} />
           </div>
-          <div style={{ fontSize: 11, color: km >= targets.weeklyKm ? C.acid : C.dim2, marginTop: 6 }}>
+          <div style={{ fontSize: 11, color: km >= targets.weeklyKm ? C.green : C.dim2, marginTop: 6 }}>
             {km >= targets.weeklyKm ? '✓ Weekly target smashed' : `${(targets.weeklyKm - km).toFixed(1)} km to target`}
           </div>
         </div>

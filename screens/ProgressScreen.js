@@ -21,11 +21,11 @@ export default function ProgressScreen({ runs, targets }) {
               <div key={w.key} style={{ marginBottom: 16 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
                   <span style={{ fontSize: 12, color: C.dim2 }}>{w.label}</span>
-                  <span style={{ fontFamily: 'monospace', fontWeight: '700', fontSize: 12, color: hit ? C.acid : C.txt }}>
+                  <span style={{ fontFamily: 'monospace', fontWeight: '700', fontSize: 12, color: hit ? C.green : C.txt }}>
                     {w.km.toFixed(1)} km{hit ? ' ✓' : ''}
                   </span>
                 </div>
-                <Bar pct={(w.km / maxKm) * 100} color={hit ? C.acid : C.blue} targetPct={(targets.weeklyKm / maxKm) * 100} />
+                <Bar pct={(w.km / maxKm) * 100} color={hit ? C.green : C.blue} targetPct={(targets.weeklyKm / maxKm) * 100} />
                 <div style={{ fontSize: 10, color: C.dim, marginTop: 3 }}>
                   {w.runs} runs · {w.vert}m vert · avg {fmtPace(w.sec / w.km)}/km
                 </div>

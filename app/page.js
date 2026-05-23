@@ -4,32 +4,22 @@ import { C } from '../lib/theme';
 import { THEMES, DEFAULT_THEME, applyTheme } from '../lib/themes';
 import { loadRuns, saveRuns, loadTargets, saveTargets } from '../lib/storage';
 
-import PlanScreen from '../screens/PlanScreen';
-import ProgressScreen from '../screens/ProgressScreen';
 import LogScreen from '../screens/LogScreen';
-import TrailScreen from '../screens/TrailScreen';
+import StatsScreen from '../screens/StatsScreen';
 import RoutesScreen from '../screens/RoutesScreen';
 import LoadScreen from '../screens/LoadScreen';
-import WeeklyScreen from '../screens/WeeklyScreen';
-import PBsScreen from '../screens/PBsScreen';
-import TargetsScreen from '../screens/TargetsScreen';
 import CoachScreen from '../screens/CoachScreen';
 
 const TABS = [
-  { name: 'Plan', icon: '✎' },
-  { name: 'Progress', icon: '📈' },
-  { name: 'Log', icon: '≡' },
-  { name: 'Trail', icon: '⛰' },
-  { name: 'Routes', icon: '↻' },
+  { name: 'Log', icon: '✎' },
+  { name: 'Stats', icon: '▦' },
+  { name: 'Routes', icon: '⛰' },
   { name: 'Load', icon: '◐' },
-  { name: 'Weekly', icon: '▦' },
-  { name: 'PBs', icon: '★' },
-  { name: 'Targets', icon: '◎' },
   { name: 'Coach', icon: '◈' },
 ];
 
 export default function Home() {
-  const [tab, setTab] = useState('Plan');
+  const [tab, setTab] = useState('Log');
   const [runs, setRuns] = useState([]);
   const [targets, setTargets] = useState(null);
   const [ready, setReady] = useState(false);
@@ -67,7 +57,7 @@ export default function Home() {
         alignItems: 'center', justifyContent: 'center', backgroundColor: C.bg,
       }}>
         <div style={{ fontSize: 32, fontWeight: '800', letterSpacing: 8, color: C.txt }}>
-          <span style={{ color: C.acid }}>P</span>ACE
+          <span style={{ color: C.acid }}>P</span>ACE PRO
         </div>
       </div>
     );
@@ -75,15 +65,10 @@ export default function Home() {
 
   const renderScreen = () => {
     switch (tab) {
-      case 'Plan': return <PlanScreen runs={runs} addRun={addRun} />;
-      case 'Progress': return <ProgressScreen runs={runs} targets={targets} />;
-      case 'Log': return <LogScreen runs={runs} delRun={delRun} />;
-      case 'Trail': return <TrailScreen runs={runs} />;
+      case 'Log': return <LogScreen runs={runs} delRun={delRun} addRun={addRun} />;
+      case 'Stats': return <StatsScreen runs={runs} targets={targets} setTargets={setTargets} />;
       case 'Routes': return <RoutesScreen runs={runs} />;
       case 'Load': return <LoadScreen runs={runs} />;
-      case 'Weekly': return <WeeklyScreen runs={runs} targets={targets} />;
-      case 'PBs': return <PBsScreen runs={runs} />;
-      case 'Targets': return <TargetsScreen runs={runs} targets={targets} setTargets={setTargets} />;
       case 'Coach': return <CoachScreen runs={runs} targets={targets} />;
       default: return null;
     }
@@ -107,7 +92,7 @@ export default function Home() {
       }}>
         <div>
           <div style={{ fontSize: 30, fontWeight: '800', letterSpacing: 7, color: C.txt, lineHeight: 1 }}>
-            <span style={{ color: C.acid }}>P</span>ACE
+            <span style={{ color: C.acid }}>P</span>ACE PRO
           </div>
           <div style={{ fontSize: 9, letterSpacing: 3, color: C.dim, marginTop: 4, fontWeight: '600' }}>
             TRAIL COACH · KM · EFFORT-FIRST
@@ -140,7 +125,7 @@ export default function Home() {
         paddingBottom: 'env(safe-area-inset-bottom)',
         flexShrink: 0,
       }}>
-        <div style={{ display: 'flex', overflowX: 'auto', padding: '6px 6px 2px', gap: 2 }}>
+        <div style={{ display: 'flex', padding: '4px 8px 2px' }}>
           {TABS.map(({ name, icon }) => {
             const active = tab === name;
             return (
@@ -148,24 +133,22 @@ export default function Home() {
                 key={name}
                 onClick={() => setTab(name)}
                 style={{
-                  flex: '0 0 auto',
-                  minWidth: 68,
+                  flex: 1,
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  padding: '8px 10px 6px',
-                  borderRadius: 14,
+                  padding: '8px 4px 6px',
                   border: 'none',
-                  backgroundColor: active ? C.acidGlow : 'transparent',
+                  backgroundColor: 'transparent',
                   cursor: 'pointer',
                   color: active ? C.acid : C.dim,
                 }}
               >
-                <span style={{ fontSize: 18, lineHeight: 1 }}>{icon}</span>
+                <span style={{ fontSize: 20, lineHeight: 1 }}>{icon}</span>
                 <span style={{
-                  fontSize: 9,
+                  fontSize: 10,
                   letterSpacing: 0.5,
-                  marginTop: 4,
+                  marginTop: 3,
                   fontWeight: active ? '700' : '400',
                 }}>{name}</span>
               </button>

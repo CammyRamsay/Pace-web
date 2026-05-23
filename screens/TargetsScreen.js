@@ -95,7 +95,7 @@ export default function TargetsScreen({ runs, targets, setTargets }) {
             <Card key={it.name}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
                 <span style={{ fontWeight: '600', letterSpacing: 1, color: C.txt }}>{it.name}</span>
-                <span style={{ fontSize: 12, color: onTrack ? C.acid : C.dim2 }}>{onTrack ? '✓ HIT' : 'in progress'}</span>
+                <span style={{ fontSize: 12, color: onTrack ? C.green : C.dim2 }}>{onTrack ? '✓ HIT' : 'in progress'}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
                 <span style={{ fontFamily: 'monospace', fontSize: 13, color: C.dim }}>
@@ -105,7 +105,7 @@ export default function TargetsScreen({ runs, targets, setTargets }) {
                   goal <span style={{ color: C.orange }}>{it.fmt(it.tgt)}{it.unit ? ' ' + it.unit : ''}</span>
                 </span>
               </div>
-              <Bar pct={pct} color={onTrack ? C.acid : C.blue} />
+              <Bar pct={pct} color={onTrack ? C.green : C.blue} />
               {has && !onTrack && (
                 <div style={{ fontSize: 11, color: C.dim2, marginTop: 6 }}>
                   {it.higher ? `${gapv.toFixed(it.unit === 'm' ? 0 : 1)} ${it.unit} to go` : `${fmtClock(gapv)} faster needed`}

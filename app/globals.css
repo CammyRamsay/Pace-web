@@ -13,13 +13,13 @@
   --txt2: #c5cfe8;
   --dim: #4a5980;
   --dim2: #6878a8;
-  --acid: #d4ff5c;
+  --acid: #ff2d78;
   --cyan: #22d3ee;
   --orange: #ff7043;
   --red: #ff4466;
   --blue: #4477ff;
   --green: #30d980;
-  --acid-glow: rgba(212, 255, 92, 0.12);
+  --acid-glow: rgba(255, 45, 120, 0.15);
 }
 
 * {

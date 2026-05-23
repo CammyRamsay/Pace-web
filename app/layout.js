@@ -15,7 +15,7 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata = {
-  title: 'PACE',
+  title: 'Pace Pro',
   description: 'Trail coach · KM · Effort-first',
   manifest: '/manifest.json',
 };
@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="PACE" />
+        <meta name="apple-mobile-web-app-title" content="Pace Pro" />
         <meta name="theme-color" content="#070a12" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
