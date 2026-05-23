@@ -13,7 +13,7 @@ export default function RunCard({ r, onDel }) {
     <div style={{
       backgroundColor: C.panel,
       border: `1px solid ${C.line}`,
-      borderLeft: `3px solid ${C.acid}`,
+      borderLeft: `3px solid ${r.type === 'Race' ? C.pink : C.acid}`,
       borderRadius: 16,
       padding: 16,
       marginBottom: 10,

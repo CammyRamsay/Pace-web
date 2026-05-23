@@ -57,7 +57,7 @@ export default function Home() {
         alignItems: 'center', justifyContent: 'center', backgroundColor: C.bg,
       }}>
         <div style={{ fontSize: 32, fontWeight: '800', letterSpacing: 8, color: C.txt }}>
-          <span style={{ color: C.acid }}>P</span>ACE PRO
+          <span style={{ color: C.acid }}>P</span>ACE <span style={{ color: C.pink }}>PRO</span>
         </div>
       </div>
     );
@@ -92,7 +92,7 @@ export default function Home() {
       }}>
         <div>
           <div style={{ fontSize: 30, fontWeight: '800', letterSpacing: 7, color: C.txt, lineHeight: 1 }}>
-            <span style={{ color: C.acid }}>P</span>ACE PRO
+            <span style={{ color: C.acid }}>P</span>ACE <span style={{ color: C.pink }}>PRO</span>
           </div>
           <div style={{ fontSize: 9, letterSpacing: 3, color: C.dim, marginTop: 4, fontWeight: '600' }}>
             TRAIL COACH · KM · EFFORT-FIRST

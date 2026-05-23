@@ -92,10 +92,18 @@ export default function TargetsScreen({ runs, targets, setTargets }) {
             onTrack = has && it.cur <= it.tgt;
           }
           return (
-            <Card key={it.name}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+            <Card key={it.name} style={onTrack ? { borderColor: C.green, borderWidth: 1.5 } : {}}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                 <span style={{ fontWeight: '600', letterSpacing: 1, color: C.txt }}>{it.name}</span>
-                <span style={{ fontSize: 12, color: onTrack ? C.green : C.dim2 }}>{onTrack ? '✓ HIT' : 'in progress'}</span>
+                {onTrack ? (
+                  <span style={{
+                    fontSize: 11, fontWeight: '700', letterSpacing: 1,
+                    color: '#000', backgroundColor: C.green,
+                    borderRadius: 20, padding: '4px 10px',
+                  }}>✓ HIT</span>
+                ) : (
+                  <span style={{ fontSize: 11, color: C.dim2 }}>in progress</span>
+                )}
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
                 <span style={{ fontFamily: 'monospace', fontSize: 13, color: C.dim }}>
